@@ -35,10 +35,12 @@ export const signup = async (req, res) => {
 		// Save the user to the database
 		await newUser.save();
 
-		// Generate JWT token
-		generateTokenAndSetCookie(newUser._id, res);
+		// Generate JWT token and set in response cookie
+		const token = generateTokenAndSetCookie(newUser._id, res);
 
+		// Respond with the newly created user and token
 		res.status(201).json({
+			token, // return the token here
 			_id: newUser._id,
 			firstName: newUser.firstName,
 			lastName: newUser.lastName,
@@ -70,9 +72,11 @@ export const login = async (req, res) => {
 		}
 
 		// Generate JWT token and set in response cookie
-		generateTokenAndSetCookie(user._id, res);
+		const token = generateTokenAndSetCookie(user._id, res);
 
+		// Respond with user details and token
 		res.status(200).json({
+			token,  // include the token in the response
 			_id: user._id,
 			firstName: user.firstName,
 			lastName: user.lastName,
