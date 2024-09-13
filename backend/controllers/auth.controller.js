@@ -1,8 +1,9 @@
-const User = require('../models/user.model');
-const jwt = require('jsonwebtoken');
+import pkg from 'jsonwebtoken'; 
+const { sign } = pkg;
+import User from '../models/user.model.js';
 
 // Register new users
-exports.register = async (req, res) => {
+export async function signup(req, res) {
     const { firstName, lastName, username, email, password, role } = req.body;
 
     try {
@@ -10,7 +11,7 @@ exports.register = async (req, res) => {
         await user.save();
 
         // Generate JWT token
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
+        const token = sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
             expiresIn: '1h',
         });
 
@@ -18,10 +19,10 @@ exports.register = async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-};
+}
 
 // Login existing users
-exports.login = async (req, res) => {
+export async function login(req, res) {
     const { email, password } = req.body;
 
     try {
@@ -32,7 +33,7 @@ exports.login = async (req, res) => {
         if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
         // Generate JWT token
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
+        const token = sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
             expiresIn: '1h',
         });
 
@@ -40,15 +41,16 @@ exports.login = async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-};
+}
 
+// Logout users
+export async function logout(req, res) {
+    try {
+        res.cookie("jwt", "", { maxAge: 0 });   // Clear the JWT cookie
+        res.status(200).json({ message: "Logged out successfully" });
+    } catch (error) {
+        console.log("Error in logout controller", error.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
 
-exports.logout = (req, res) => {
-	try {
-		res.cookie("jwt", "", { maxAge: 0 });   // clear the JWT cookie
-		res.status(200).json({ message: "Logged out successfully" });
-	} catch (error) {
-		console.log("Error in logout controller", error.message);
-		res.status(500).json({ error: "Internal Server Error" });
-	}
-};
