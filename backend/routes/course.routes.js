@@ -21,9 +21,9 @@ router.get('/', getAllCourses);
 router.get('/:id', getCourseById);
 
 // Update a course
-router.put('update-course/:id', protect, authorize('instructor'), updateCourse);
+router.put('/update-course/:id', protect, authorize('instructor'), updateCourse);
 
 // Delete a course
-router.delete('delete-course/:id', protect, authorize('instructor'), deleteCourse);
+router.delete('/delete-course/:id', protect, authorize('instructor'), deleteCourse);
 
 export default router;
