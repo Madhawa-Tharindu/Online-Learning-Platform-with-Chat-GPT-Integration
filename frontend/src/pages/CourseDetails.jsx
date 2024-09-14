@@ -28,9 +28,12 @@ const CourseDetails = () => {
     try {
       await api.post(`/courses/enroll/${id}`);
       setEnrolled(true);
-      // Optionally, you can update the course state to reflect the new enrollment
+      // Optionally, you can fetch the updated course data
+      const updatedCourse = await api.get(`/courses/${id}`);
+      setCourse(updatedCourse.data);
     } catch (error) {
       console.error('Error enrolling in course:', error.message);
+      // Optionally, display error to the user
     }
   };
 

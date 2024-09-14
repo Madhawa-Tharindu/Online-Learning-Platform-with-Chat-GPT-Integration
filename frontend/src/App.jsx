@@ -8,7 +8,7 @@ import Login from './pages/Login';
 import CreateCourse from './pages/CreateCourse';
 import EditCourse from './pages/EditCourse';
 import CourseDetails from './pages/CourseDetails';
-//import EnrolledCourses from './pages/EnrolledCourses';
+import EnrolledCourses from './pages/EnrolledCourses';
 import ProtectedRoute from './routes/ProtectedRoute';
 
 const App = () => {
@@ -32,11 +32,11 @@ const App = () => {
               <EditCourse />
             </ProtectedRoute>
           } />
-          {/* <Route path="/enrolled-courses" element={
+          <Route path="/enrolled-courses" element={
             <ProtectedRoute roles={['student']}>
               <EnrolledCourses />
             </ProtectedRoute>
-          } /> */}
+          } />
           
           <Route path="/courses/:id" element={<CourseDetails />} />
         </Routes>
