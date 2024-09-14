@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext  } from 'react';
 import api from '../config/api';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const Home = () => {
   const [courses, setCourses] = useState([]);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -16,6 +18,14 @@ const Home = () => {
     };
     fetchCourses();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      console.log('Logged in user role:', user.role); // Log user role for debugging
+    } else {
+      console.log('No user is logged in.');
+    }
+  }, [user]); // Run this effect when `user` changes
 
   return (
     <div className="container mx-auto p-4">

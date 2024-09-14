@@ -90,6 +90,23 @@ export const login = async (req, res) => {
 	}
 };
 
+// Get the logged-in user's profile
+export const getProfile = async (req, res) => {
+	try {
+	  // Since `protect` middleware will attach the user to req.user, we can access the user's ID
+	  const user = await User.findById(req.user._id).select('-password'); // Do not return the password field
+  
+	  if (!user) {
+		return res.status(404).json({ message: 'User not found' });
+	  }
+  
+	  res.status(200).json(user);
+	} catch (error) {
+	  console.log('Error fetching user profile:', error.message);
+	  res.status(500).json({ message: 'Server error' });
+	}
+  };
+
 // User Logout
 export const logout = (req, res) => {
 	try {

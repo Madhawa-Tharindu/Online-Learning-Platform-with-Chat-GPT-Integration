@@ -1,5 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { Routes, Route } from 'react-router-dom';
+//import { AuthProvider } from './context/AuthContext';
 import Navbar from './layouts/Navbar';
 import Footer from './layouts/Footer';
 import Home from './pages/Home';
@@ -13,8 +13,9 @@ import ProtectedRoute from './routes/ProtectedRoute';
 
 const App = () => {
   return (
-    <AuthProvider>
-      <Router>
+    // <AuthProvider>
+    //   <Router>
+    <>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -41,8 +42,9 @@ const App = () => {
           <Route path="/courses/:id" element={<CourseDetails />} />
         </Routes>
         <Footer />
-      </Router>
-    </AuthProvider>
+        </>
+    //   </Router>
+    // </AuthProvider>
   );
 };
 

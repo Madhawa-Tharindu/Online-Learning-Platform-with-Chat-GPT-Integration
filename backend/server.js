@@ -2,6 +2,7 @@ import express, { json } from 'express';
 import { connect } from 'mongoose';
 import { config } from 'dotenv';
 import cors from 'cors';
+import cookieParser from "cookie-parser";
 
 // Import routes
 import authRoutes from './routes/auth.routes.js';
@@ -21,6 +22,8 @@ app.use(cors({
     origin: 'http://localhost:5173', // Frontend URL
     credentials: true, // Allow cookies to be sent
   })); // Enable Cross-Origin Resource Sharing
+  app.use(cookieParser()); // For parsing cookies
+
 
 // Routes
 app.use('/api/auth', authRoutes); // Authentication routes
