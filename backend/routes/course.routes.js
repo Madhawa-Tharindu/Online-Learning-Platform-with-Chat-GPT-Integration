@@ -5,6 +5,7 @@ import {
   getCourseById,
   updateCourse,
   deleteCourse,
+  enrollCourse,
 } from '../controllers/course.controller.js';
 
 import { protect, authorize } from '../middleware/protectRoute.js'; // Assuming you're using JWT authentication middleware
