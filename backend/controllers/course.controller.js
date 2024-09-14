@@ -66,3 +66,27 @@ export const deleteCourse = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
+// Enroll in a course
+export const enrollCourse = async (req, res) => {
+  const courseId = req.params.id;
+  const userId = req.user._id;
+
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) return res.status(404).json({ message: 'Course not found' });
+
+    if (course.studentsEnrolled.includes(userId)) {
+      return res.status(400).json({ message: 'Already enrolled in this course' });
+    }
+
+    course.studentsEnrolled.push(userId);
+    await course.save();
+
+    res.status(200).json({ message: 'Enrolled successfully' });
+  } catch (error) {
+    console.log('Error enrolling in course:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+

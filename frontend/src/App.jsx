@@ -1,24 +1,49 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import Navbar from './layouts/Navbar';
+import Footer from './layouts/Footer';
 import Home from './pages/Home';
+import Signup from './pages/Signup';
 import Login from './pages/Login';
-import Register from './pages/Register';
-import Courses from './pages/Courses';
-import Enrollments from './pages/Enrollments';
+import CreateCourse from './pages/CreateCourse';
+import EditCourse from './pages/EditCourse';
+import CourseDetails from './pages/CourseDetails';
+//import EnrolledCourses from './pages/EnrolledCourses';
+import ProtectedRoute from './routes/ProtectedRoute';
 
-function App() {
+const App = () => {
   return (
-    <Router>
-      <div className="App">
+    <AuthProvider>
+      <Router>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/enrollments" element={<Enrollments />} />
+          
+          {/* Protected Routes */}
+          <Route path="/create-course" element={
+            <ProtectedRoute roles={['instructor']}>
+              <CreateCourse />
+            </ProtectedRoute>
+          } />
+          <Route path="/edit-course/:id" element={
+            <ProtectedRoute roles={['instructor']}>
+              <EditCourse />
+            </ProtectedRoute>
+          } />
+          {/* <Route path="/enrolled-courses" element={
+            <ProtectedRoute roles={['student']}>
+              <EnrolledCourses />
+            </ProtectedRoute>
+          } /> */}
+          
+          <Route path="/courses/:id" element={<CourseDetails />} />
         </Routes>
-      </div>
-    </Router>
+        <Footer />
+      </Router>
+    </AuthProvider>
   );
-}
+};
 
 export default App;

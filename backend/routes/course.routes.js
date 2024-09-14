@@ -26,4 +26,7 @@ router.put('/update-course/:id', protect, authorize('instructor'), updateCourse)
 // Delete a course
 router.delete('/delete-course/:id', protect, authorize('instructor'), deleteCourse);
 
+// Enroll in a course (students only)
+router.post('/enroll/:id', protect, authorize('student'), enrollCourse);
+
 export default router;

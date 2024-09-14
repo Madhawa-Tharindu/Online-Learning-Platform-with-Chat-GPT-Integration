@@ -17,13 +17,16 @@ const app = express();
 
 // Middleware
 app.use(json()); // Parse JSON bodies
-app.use(cors()); // Enable Cross-Origin Resource Sharing
+app.use(cors({
+    origin: 'http://localhost:5173', // Frontend URL
+    credentials: true, // Allow cookies to be sent
+  })); // Enable Cross-Origin Resource Sharing
 
 // Routes
 app.use('/api/auth', authRoutes); // Authentication routes
 app.use('/api/courses', courseRoutes); // Course management routes
 
-// Error handling middleware (optional)
+// Error handling middleware 
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ message: 'Internal Server Error' });
