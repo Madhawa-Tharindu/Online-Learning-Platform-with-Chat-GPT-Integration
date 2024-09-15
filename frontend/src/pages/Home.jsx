@@ -2,6 +2,7 @@ import { useState, useEffect, useContext  } from 'react';
 import api from '../config/api';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import ImageSection from '../components/ImageSection'; 
 
 const Home = () => {
   const [courses, setCourses] = useState([]);
@@ -28,6 +29,8 @@ const Home = () => {
   }, [user]); // Run this effect when `user` changes
 
   return (
+    <>
+    <ImageSection />
     <div className="container mx-auto p-4">
       <h1 className="text-3xl mb-6">Available Courses</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -43,6 +46,7 @@ const Home = () => {
         ))}
       </div>
     </div>
+    </>
   );
 };
 
