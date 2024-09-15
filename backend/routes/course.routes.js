@@ -7,6 +7,7 @@ import {
   deleteCourse,
   enrollCourse,
   getEnrolledCoursesById,
+  getStudentsByCourseID,
 } from '../controllers/course.controller.js';
 
 import { protect, authorize } from '../middleware/protectRoute.js'; // Assuming you're using JWT authentication middleware
@@ -32,5 +33,7 @@ router.delete('/delete-course/:id', protect, authorize('instructor'), deleteCour
 router.post('/enroll/:id', protect, authorize('student'), enrollCourse);
 
 router.get('/enrolled/:studentId', protect, getEnrolledCoursesById);
+
+router.get('/students/:id', protect, authorize('instructor'), getStudentsByCourseID)
 
 export default router;

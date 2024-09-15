@@ -108,3 +108,21 @@ export const getEnrolledCoursesById = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
+//get student list by a course id
+export const getStudentsByCourseID = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id).populate('studentsEnrolled', 'firstName lastName email');
+    
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
+
+    res.status(200).json(course.studentsEnrolled);
+  } catch (error) {
+    console.error('Error fetching enrolled students:', error.message);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
