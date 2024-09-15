@@ -90,3 +90,21 @@ export const enrollCourse = async (req, res) => {
   }
 };
 
+
+// Get the list of courses a student is enrolled in
+export const getEnrolledCoursesById = async (req, res) => {
+  try {
+    const studentId = req.params.studentId;
+
+    const courses = await Course.find({ studentsEnrolled: studentId });
+    
+    if (!courses || courses.length === 0) {
+      return res.status(404).json({ message: 'No enrolled courses found' });
+    }
+
+    res.status(200).json(courses);
+  } catch (error) {
+    console.error('Error fetching courses:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
