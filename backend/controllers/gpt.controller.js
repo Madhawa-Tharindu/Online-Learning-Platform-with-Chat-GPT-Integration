@@ -1,7 +1,10 @@
 import axios from 'axios';
-import Course from '../models/course.model.js'; 
+import Course from '../models/course.model.js';
+import dotenv from 'dotenv';
 
-const OPENAI_API_KEY = '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';
+dotenv.config(); 
+
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY; // Access from .env
 
 export const courseSuggestions = async (req, res) => {
   const { prompt } = req.body;
