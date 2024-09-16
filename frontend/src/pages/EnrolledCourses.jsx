@@ -121,7 +121,7 @@ const EnrolledCourses = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        
+
         setCourses(res.data);
       } catch (error) {
         console.error('Error fetching enrolled courses:', error.message);
@@ -139,8 +139,22 @@ const EnrolledCourses = () => {
   const indexOfLastCourse = currentPage * coursesPerPage;
   const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
   const currentCourses = courses.slice(indexOfFirstCourse, indexOfLastCourse);
+  
+  const totalPages = Math.ceil(courses.length / coursesPerPage);
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  // Navigate to the next page
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  // Navigate to the previous page
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
 
   if (loading) {
     return <p>Loading courses...</p>;
@@ -181,19 +195,25 @@ const EnrolledCourses = () => {
           </div>
 
           {/* Pagination */}
-          <div className="flex justify-center mt-6">
-            <ul className="inline-flex items-center space-x-2">
-              {Array.from({ length: Math.ceil(courses.length / coursesPerPage) }, (_, index) => (
-                <li key={index}>
-                  <button
-                    onClick={() => paginate(index + 1)}
-                    className={`px-4 py-2 rounded-lg ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300'}`}
-                  >
-                    {index + 1}
-                  </button>
-                </li>
-              ))}
-            </ul>
+         <div className="flex justify-center mt-[3rem] mb-[6rem]">
+            <button
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+              className={`mr-4 px-4 py-2 border rounded-lg min-w-[6rem] ${
+                currentPage === 1 ? 'bg-gray-300 text-gray-500' : 'bg-blue-500 text-white hover:bg-blue-600'
+              }`}
+            >
+              Previous
+            </button>
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+              className={`px-4 py-2 border rounded-lg min-w-[6rem] ${
+                currentPage === totalPages ? 'bg-gray-300 text-gray-500' : 'bg-blue-500 text-white hover:bg-blue-600'
+              }`}
+            >
+              Next
+            </button>
           </div>
         </>
       )}
@@ -202,4 +222,5 @@ const EnrolledCourses = () => {
 };
 
 export default EnrolledCourses;
+
 
