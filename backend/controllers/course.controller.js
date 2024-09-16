@@ -109,6 +109,23 @@ export const getEnrolledCoursesById = async (req, res) => {
   }
 };
 
+// Get all courses by a specific instructor
+export const getCoursesByInstructor = async (req, res) => {
+  try {
+    const instructorId = req.params.instructorId;
+    const courses = await Course.find({ instructor: instructorId });
+    
+    if (!courses || courses.length === 0) {
+      return res.status(404).json({ message: 'No courses found for this instructor' });
+    }
+
+    res.json(courses);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 
 //get student list by a course id
 export const getStudentsByCourseID = async (req, res) => {

@@ -8,6 +8,7 @@ import {
   enrollCourse,
   getEnrolledCoursesById,
   getStudentsByCourseID,
+  getCoursesByInstructor, 
 } from '../controllers/course.controller.js';
 
 import { protect, authorize } from '../middleware/protectRoute.js'; // Assuming you're using JWT authentication middleware
@@ -28,6 +29,9 @@ router.put('/update-course/:id', protect, authorize('instructor'), updateCourse)
 
 // Delete a course
 router.delete('/delete-course/:id', protect, authorize('instructor'), deleteCourse);
+
+// Route to get all courses by instructor ID
+router.get('/instructor/:instructorId', protect, authorize('instructor'), getCoursesByInstructor);
 
 // Enroll in a course (students only)
 router.post('/enroll/:id', protect, authorize('student'), enrollCourse);
