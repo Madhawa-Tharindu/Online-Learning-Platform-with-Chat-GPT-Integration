@@ -117,3 +117,59 @@ export const logout = (req, res) => {
 		res.status(500).json({ error: "Internal Server Error" });
 	}
 };
+
+
+// extra functions
+// Update profile for both user categories (students and instructors)
+export const updateProfile = async (req, res) => {
+	try {
+	  const userId = req.params.id;
+	  const { username, password, email } = req.body;
+  
+	  // Create an object with the fields allowed for update
+	  const updates = {};
+	  if (username) updates.username = username;
+	  if (email) updates.email = email;
+	  if (password) {
+		// Hash the password before updating
+		const salt = await bcrypt.genSalt(10);
+		const hashedPassword = await bcrypt.hash(password, salt);
+		updates.password = hashedPassword;
+	  }
+  
+	  // Find the user by ID and update their profile
+	  const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true });
+  
+	  if (!updatedUser) {
+		return res.status(404).json({ message: 'User not found' });
+	  }
+  
+	  res.json({ message: 'Profile updated successfully', user: updatedUser });
+	} catch (error) {
+	  res.status(500).json({ message: 'Error updating profile', error: error.message });
+	}
+  };
+
+
+//to delete student profile  
+export const deleteAccount = async (req, res) => {
+	try {
+	  const userId = req.params.id;
+	  const user = await User.findById(userId);
+  
+	  if (!user) {
+		return res.status(404).json({ message: 'User not found' });
+	  }
+  
+	  // Check if the user is a student before allowing deletion
+	  if (user.role !== 'student') {
+		return res.status(403).json({ message: 'Only students can delete their accounts' });
+	  }
+  
+	  await User.findByIdAndDelete(userId);
+	  res.json({ message: 'Account deleted successfully' });
+	} catch (error) {
+	  res.status(500).json({ message: 'Error deleting account', error: error.message });
+	}
+};
+  

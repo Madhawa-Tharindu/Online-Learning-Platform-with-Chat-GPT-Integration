@@ -71,4 +71,12 @@ export const refreshToken = async (req, res) => {
   }
 };
 
+// Middleware to check if the user is a student
+export const isStudent = (req, res, next) => {
+  if (req.user.role !== 'student') {
+    return res.status(403).json({ message: 'Only students can perform this action' });
+  }
+  next();
+};
+
 

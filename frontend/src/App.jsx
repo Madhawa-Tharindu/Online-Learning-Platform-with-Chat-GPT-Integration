@@ -8,6 +8,8 @@ import CreateCourse from './pages/CreateCourse';
 import EditCourse from './pages/EditCourse';
 import CourseDetails from './pages/CourseDetails';
 import EnrolledCourses from './pages/EnrolledCourses';
+import MyCourses from './pages/MyCourses';
+import Profile from './pages/Profile';
 import ProtectedRoute from './routes/ProtectedRoute';
 
 const App = () => {
@@ -19,6 +21,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile/:id" element={<Profile />} />
           
           {/* Protected Routes */}
           <Route path="/create-course" element={
@@ -29,6 +32,11 @@ const App = () => {
           <Route path="/edit-course/:id" element={
             <ProtectedRoute roles={['instructor']}>
               <EditCourse />
+            </ProtectedRoute>
+          } />
+          <Route path="/my-courses/:id" element={
+            <ProtectedRoute roles={['instructor']}>
+              <MyCourses />
             </ProtectedRoute>
           } />
           <Route path="/enrolled-courses" element={
