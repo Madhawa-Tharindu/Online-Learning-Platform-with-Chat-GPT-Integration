@@ -21,11 +21,10 @@ const app = express();
 // Middleware
 app.use(json()); // Parse JSON bodies
 app.use(cors({
-    origin: 'https://learning-platform-020766f78778.herokuapp.com', // Frontend URL
-    credentials: true, // Allow cookies to be sent
-  })); // Enable Cross-Origin Resource Sharing
-  app.use(cookieParser()); // For parsing cookies
-
+  origin: 'https://your-frontend-netlify-url.netlify.app', // Adjust this URL
+  credentials: true,
+}));
+app.use(cookieParser());
 
 // Routes
 app.use('/api/auth', authRoutes); // Authentication routes
@@ -38,19 +37,18 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: 'Internal Server Error' });
 });
 
-// Emulate __dirname for ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-if (process.env.NODE_ENV == 'production') {
-  app.use(express.static(path.join(__dirname, "/frontend/dist")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+// Serve frontend
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
   });
 }
 
-// Server listening on port
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+// Connect to MongoDB
+connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log('Error connecting to MongoDB', err));
 
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
