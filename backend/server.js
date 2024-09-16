@@ -1,5 +1,5 @@
 import express, { json } from 'express';
-import { connect } from 'mongoose';
+//import { connect } from 'mongoose';
 import { config } from 'dotenv';
 import cors from 'cors';
 import cookieParser from "cookie-parser";
@@ -14,6 +14,8 @@ import chatGPTRoute from './routes/chatGPT.routes.js';
 import connectToMongoDB from "./db/connectToMongoDB.js";
 // Initialize dotenv to load environment variables
 config();
+
+const PORT = process.env.PORT || 5000;
 
 // Initialize Express app
 const app = express();
@@ -50,9 +52,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Connect to MongoDB
-connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.log('Error connecting to MongoDB', err));
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+	connectToMongoDB();
+	console.log(`Server Running on port ${PORT}`);
+});
