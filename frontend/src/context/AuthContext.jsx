@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+//import axios from 'axios';
+import api from '../config/api'; 
 import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
@@ -19,8 +20,7 @@ export const AuthProvider = ({ children }) => {
     console.log('Retrieved token:', token); // Debugging
 
     if (token) {
-      axios
-        .get('http://localhost:5000/api/auth/profile/', {
+      api.get('/auth/profile/', {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      const response = await api.post('/auth/login', { email, password });
       //const { token, user } = response.data;
       const token = response.data.token;
       const user = response.data;
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post('http://localhost:5000/api/auth/logout', {}, {
+      await api.post('/auth/logout', {}, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       localStorage.removeItem('token');
@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (userData) => {
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/signup', userData);
+      const res = await api.post('/auth/signup', userData);
       localStorage.setItem('token', res.data.token);
       setUser(res.data.user);
     } catch (error) {

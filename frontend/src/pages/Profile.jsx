@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import api from '../config/api';  // Assuming you have an API config set up
+import api from '../config/api'; 
 import { AuthContext } from '../context/AuthContext';
 
 const Profile = () => {
