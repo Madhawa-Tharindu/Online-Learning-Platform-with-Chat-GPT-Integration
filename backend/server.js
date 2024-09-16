@@ -38,7 +38,6 @@ app.use((err, req, res, next) => {
 });
 
 // Emulate __dirname for ES modules
-// Emulate __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
