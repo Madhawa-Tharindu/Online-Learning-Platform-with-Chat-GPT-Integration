@@ -4,6 +4,7 @@ import { config } from 'dotenv';
 import cors from 'cors';
 import cookieParser from "cookie-parser";
 import path from "path";
+import { fileURLToPath } from 'url';
 
 // Import routes
 import authRoutes from './routes/auth.routes.js';
@@ -37,8 +38,12 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: 'Internal Server Error' });
 });
 
+// Emulate __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 if (process.env.NODE_ENV == 'production') {
-  app.use(express.static(path.join(__dirname, "frontend", "build")));
+  app.use(express.static(path.join(__dirname, "/frontend/dist")));
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
   });
