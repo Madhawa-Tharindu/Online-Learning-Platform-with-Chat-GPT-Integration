@@ -3,6 +3,7 @@ import { connect } from 'mongoose';
 import { config } from 'dotenv';
 import cors from 'cors';
 import cookieParser from "cookie-parser";
+import path from "path";
 
 // Import routes
 import authRoutes from './routes/auth.routes.js';
@@ -35,6 +36,13 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ message: 'Internal Server Error' });
 });
+
+if (process.env.NODE_ENV == 'production') {
+  app.use(express.static(path.join(__dirname, "frontend", "build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+  });
+}
 
 // Server listening on port
 const PORT = process.env.PORT || 5000;
