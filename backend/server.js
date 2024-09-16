@@ -21,12 +21,12 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 
 // Middleware
-app.use(json()); // Parse JSON bodies
 app.use(cors({
-  origin: 'https://learning-platform-with-chat-gpt.netlify.app', // Adjust this URL
+  origin: 'https://learning-platform-with-chat-gpt.netlify.app', // Replace with your frontend URL
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Allow necessary methods
+  allowedHeaders: ['Content-Type', 'Authorization'] // Adjust as needed
 }));
-app.use(cookieParser());
 
 // Routes
 app.use('/api/auth', authRoutes); // Authentication routes
