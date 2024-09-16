@@ -21,7 +21,7 @@ const app = express();
 // Middleware
 app.use(json()); // Parse JSON bodies
 app.use(cors({
-  origin: 'https://your-frontend-netlify-url.netlify.app', // Adjust this URL
+  origin: 'https://http://localhost:5173', // Adjust this URL
   credentials: true,
 }));
 app.use(cookieParser());
