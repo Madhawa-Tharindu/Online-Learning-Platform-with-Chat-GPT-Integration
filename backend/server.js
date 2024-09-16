@@ -21,7 +21,7 @@ const app = express();
 // Middleware
 app.use(json()); // Parse JSON bodies
 app.use(cors({
-    origin: 'http://localhost:5173', // Frontend URL
+    origin: 'https://learning-platform-020766f78778.herokuapp.com', // Frontend URL
     credentials: true, // Allow cookies to be sent
   })); // Enable Cross-Origin Resource Sharing
   app.use(cookieParser()); // For parsing cookies
