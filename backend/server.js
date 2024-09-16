@@ -21,7 +21,7 @@ const app = express();
 // Middleware
 app.use(json()); // Parse JSON bodies
 app.use(cors({
-  origin: 'https://http://localhost:5173', // Adjust this URL
+  origin: 'https://learning-platform-with-chat-gpt.netlify.app', // Adjust this URL
   credentials: true,
 }));
 app.use(cookieParser());
