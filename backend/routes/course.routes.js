@@ -6,6 +6,7 @@ import {
   updateCourse,
   deleteCourse,
   enrollCourse,
+  unenrollCourse,
   getEnrolledCoursesById,
   getStudentsByCourseID,
   getCoursesByInstructor, 
@@ -35,6 +36,9 @@ router.get('/instructor/:instructorId', protect, authorize('instructor'), getCou
 
 // Enroll in a course (students only)
 router.post('/enroll/:id', protect, authorize('student'), enrollCourse);
+
+// Unenroll from a course (students only)
+router.post('/unenroll/:id', protect, authorize('student'), unenrollCourse); // Add this route
 
 router.get('/enrolled/:studentId', protect, getEnrolledCoursesById);
 

@@ -90,6 +90,31 @@ export const enrollCourse = async (req, res) => {
   }
 };
 
+// Unenroll from a course
+export const unenrollCourse = async (req, res) => {
+  const courseId = req.params.id;
+  const userId = req.user._id;
+
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) return res.status(404).json({ message: 'Course not found' });
+
+    if (!course.studentsEnrolled.includes(userId)) {
+      return res.status(400).json({ message: 'Not enrolled in this course' });
+    }
+
+    // Remove the user from the course
+    course.studentsEnrolled = course.studentsEnrolled.filter(id => id.toString() !== userId.toString());
+    await course.save();
+
+    res.status(200).json({ message: 'Unenrolled successfully' });
+  } catch (error) {
+    console.log('Error unenrolling from course:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
 
 // Get the list of courses a student is enrolled in
 export const getEnrolledCoursesById = async (req, res) => {
