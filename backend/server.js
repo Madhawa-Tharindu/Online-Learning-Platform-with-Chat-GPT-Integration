@@ -22,14 +22,13 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'https://learning-platform-with-chat-gpt.netlify.app/', // Replace with your frontend URL
+  origin: 'https://learning-platform-with-chat-gpt.netlify.app', // Replace with your frontend URL
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Allow necessary methods
   allowedHeaders: ['Content-Type', 'Authorization'] // Adjust as needed
 }));
 
-app.options('*', cors());
-
+app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes); // Authentication routes
 app.use('/api/courses', courseRoutes); // Course management routes
